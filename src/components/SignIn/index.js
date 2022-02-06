@@ -1,24 +1,72 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useState,useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import UserContext from '../contexts/UserContext';
 
-export default function SignIp() {
+export default function SignIn() {
+const navigate = useNavigate();
+const [email,setEmail]=useState('');
+const [password,setPassword]=useState('');
+const {setInfo}=useContext(UserContext);
 
+
+
+
+function submitForm(event){
+
+  const user={
+    email,
+    password
+  }
+
+event.preventDefault();
+
+axios.post("http/localhost:5000/",user).then(res=>{
+  setInfo(res.data);
+  localStorage.setItem("userInfo", JSON.stringify(res.data));
+  navigate('/records');
+}).catch(res=>{
+  console.log(res.response.status);
+  alert("email e/ou senha inválidos");
+  
+})
+}
+const alert = (text) => toast.error(`${text}`, {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+});
   return (
      <Container >
        
               <Title>
                   MyAccount
               </Title>
-            <Form>
-              <input type="text" placeholder='Nome' required/>
-              <input placeholder='E-mail' type="email" required/>
-              <input type="password" placeholder='Senha' required/>
-              <input type="password" placeholder='Confirme a senha' required/>
-              <button type='submit' > Cadastrar </button>
+            <Form onSubmit={submitForm}>
+              <input placeholder='E-mail' type="email"  value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+              <input type="password" placeholder='Senha' value={password} onChange={(e)=>setPassword(e.target.value)} required />
+              <button type='submit' > Entrar </button>
             </Form>
 
-            <p>Já tem uma conta? Entre agora!</p>
-      
+            <p onClick={()=>navigate("/signup")}>Primeira vez? Cadastre-se</p>
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
       </Container>
    
   )

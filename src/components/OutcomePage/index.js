@@ -1,17 +1,60 @@
-import React from 'react';
-import styled from 'styled-components';
+import React,{ useState,useContext } from 'react';
+import styled from 'styled-components'
+import UserContext from '../contexts/UserContext'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router';
  
-export default function IncomePage() {
+export default function OutcomePage() {
+  const [value, setValue]=useState();
+  const [description,setDescription]=useState();
+  const {info} = useContext(UserContext);
+  const navigate = useNavigate();
+
+  function submitForm(event){
+    event.preventDefault();
+
+    const data={
+      value,
+      description
+    }
+
+    axios.post("http/localhost:5000/outcome",data,{
+      headers:{ Authorization: `Bearer ${info.token}`}
+    }).then(res => navigate("/records")).catch(res => alert("Falha em adicionar transação"));
+  }
+  const alert = (text) => toast.error(`${text}`, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
   return (
       <Container>
           <Header>
              <p> Nova Saída </p>
           </Header>
-         <Form>
-           <input type="number" min="1" step="any"  placeholder='Valor' required/>
-           <input type="text" placeholder='Descrição' required/>
+         <Form onSubmit={submitForm}>
+           <input type="number" min="1" step="any"  placeholder='Valor' value={value} onChange={e=>setValue(e.target.value)} required/>
+           <input type="text" placeholder='Descrição' value={description} onChange={e=>setDescription(e.target.value)}  required/>
            <button type='submit' > Salvar saída </button>
          </Form>
+
+         <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
       </Container>
   );
 }

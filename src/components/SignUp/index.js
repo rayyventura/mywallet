@@ -1,22 +1,72 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import {  useNavigate } from 'react-router-dom'
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUp() {
+const navigate = useNavigate();
+const [email,setEmail]=useState('');
+const [name,setName]=useState('');
+const [password,setPassword]=useState('');
+const [passwordConfirm,setPasswordConfirm]=useState('');
 
+
+function submitForm(event){
+  
+event.preventDefault();
+
+const user = {
+  email,
+  name,
+  password,
+  passwordConfirm
+}
+
+if(password!==passwordConfirm ){
+  alert("A confirmação precisa ser igual a senha");
+  return;
+}
+axios.post('http://localhost:5000/signup',user).then((res=>{
+  navigate('/');
+})).catch(res=>{alert("Preencha os dados corretamente")});
+}
+const alert = (text) => toast.error(`${text}`, {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+});
   return (
      <Container >
        
               <Title>
                   MyAccount
               </Title>
-            <Form>
-              <input placeholder='E-mail' type="email" required/>
-              <input type="password" placeholder='Senha' required/>
-              <button type='submit' > Entrar </button>
+            <Form onSubmit={submitForm}>
+              <input type="text" placeholder='Nome' value={name} onChange={(e)=>setName(e.target.value)} required />
+              <input placeholder='E-mail' type="E-mail"  value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+              <input type="password" placeholder='Senha'  value={password} onChange={(e)=>setPassword(e.target.value)} required/>
+              <input type="password" placeholder='Confirme a senha'  value={passwordConfirm} onChange={(e)=>setPasswordConfirm(e.target.value)} required/>
+              <button type='submit' > Cadastrar </button>
             </Form>
 
-            <p>Primeira vez? Cadastre-se</p>
-      
+            <p onClick={()=>navigate('/')}>Já tem uma conta? Entre agora!</p>
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
       </Container>
    
   )

@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import styled from 'styled-components'
+import UserContext from '../contexts/UserContext'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
 export default function RecordsPage() {
-    const teste=[
-        {
-        date:30.10,
-        description:'Almoço',
-        type:'outcome',
-        value:45.45
-        },
-        {
-            date:25.02,
-            description:'Salário',
-            type:'income',
-            value:10000
-        }]
+   
+        const [userData,setUserData] = useState();
+        const { info }= useContext(UserContext);
+
+        useEffect(()=>{
+            axios.get("http/localhost:5000/records",{
+                headers: {
+                    Authorization : `Bearer ${info.token}`
+                }
+             }).then((res => setUserData(res.data))).catch(res => alert("Falha em carregar dados do usuário"));
+
+        },[info.token])
         function RecordsStructure({record}){
             return(
                 <Record type={record.type}>
@@ -27,25 +31,33 @@ export default function RecordsPage() {
                     <p className="value">{record.value}</p>
                 </Record>
             )
-    
         }
+        const alert = (text) => toast.error(`${text}`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
   return (
 
   <Container>
     <Header>
-        <p>Olá, Fulano</p>
+       {userData &&  <p>Olá, {userData.name}</p> }
         <ion-icon name="exit-outline"></ion-icon>
     </Header>
     <Records>
         <Text>
-            {/* <p>Não há registros de entrada ou saída</p> */}
             {
-                teste.map(record=>{
+                userData?  userData.map(record=>{
                     return(
                         <RecordsStructure record={record} key={record.date}/>
                     )
-            })
+            }) :  <p>Não há registros de entrada ou saída</p>
             }
+            
         </Text>
     </Records>
     <Footer>
@@ -59,6 +71,17 @@ export default function RecordsPage() {
         </div>
         
     </Footer>
+    <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
   </Container>
 
     )
