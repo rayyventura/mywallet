@@ -23,6 +23,7 @@ const user = {
   password,
   passwordConfirm
 }
+console.log(user);
 
 if(password!==passwordConfirm ){
   alert("A confirmação precisa ser igual a senha");

@@ -20,7 +20,7 @@ export default function OutcomePage() {
       description
     }
 
-    axios.post("http/localhost:5000/outcome",data,{
+    axios.post('http://localhost:5000/outcome',data,{
       headers:{ Authorization: `Bearer ${info.token}`}
     }).then(res => navigate("/records")).catch(res => alert("Falha em adicionar transação"));
   }

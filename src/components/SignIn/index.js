@@ -22,14 +22,15 @@ function submitForm(event){
     password
   }
 
+  console.log(user);
+
 event.preventDefault();
 
-axios.post("http/localhost:5000/",user).then(res=>{
+axios.post('http://localhost:5000/signin',user).then(res=>{
   setInfo(res.data);
-  localStorage.setItem("userInfo", JSON.stringify(res.data));
   navigate('/records');
 }).catch(res=>{
-  console.log(res.response.status);
+  console.log(res.response);
   alert("email e/ou senha inválidos");
   
 })
