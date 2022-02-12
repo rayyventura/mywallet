@@ -29,7 +29,7 @@ if(password!==passwordConfirm ){
   alert("A confirmação precisa ser igual a senha");
   return;
 }
-axios.post('http://localhost:5000/signup',user).then((res=>{
+axios.post('https://mywalletbank.herokuapp.com/signup',user).then((res=>{
   navigate('/');
 })).catch(res=>{alert("Preencha os dados corretamente")});
 }

@@ -21,7 +21,7 @@ export default function IncomePage() {
       description
     }
 
-    axios.post('http://localhost:5000/income',data,{
+    axios.post('https://mywalletbank.herokuapp.com/income',data,{
       headers:{ Authorization: `Bearer ${info.token}`}
     }).then(res => navigate("/records")).catch(res => alert("Falha em adicionar transação"));
   }

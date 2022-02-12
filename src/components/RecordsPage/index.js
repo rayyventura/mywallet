@@ -16,24 +16,27 @@ export default function RecordsPage() {
         const navigate = useNavigate();
         let income=0;
         let outcome=0;
+        let a=0;
         useEffect(()=>{
-            axios.get('http://localhost:5000/records',{
+            axios.get('https://mywalletbank.herokuapp.com/records',{
                 headers: {
                     Authorization : `Bearer ${info.token}`
                 }
-             }).then((res => setUserData(res.data))).catch(res => alert("Falha em carregar dados do usuário"));
+             }).then((res =>{
+                 setUserData(res.data);
+                    res.data.transactions.forEach(data=>{
+                       console.log(income)
+                        if(data.type==='income'){
+                            income = income + parseFloat(data.value);  
+                           }else{
+                           outcome = outcome + parseFloat(data.value);
+                    }
+                    })
+                    })).catch(res => alert("Falha em carregar dados do usuário"));
 
-        },[info.token])
-
-         if(userData){
-             userData.transactions.forEach(data=>{
-                 if(data.type==='income'){
-                     income+=data.value;
-                 }else{
-                     outcome+=data.value;
-                 }
-             }
-             )}
+        },[info.token],[income],[outcome])
+        
+        
     
         function RecordsStructure({record}){
             return(
@@ -74,7 +77,7 @@ export default function RecordsPage() {
         </Text>
     <div className="footer">
         <p>Saldo</p>
-        <p className='saldo'>R$ {(income - outcome).toFixed(2)} </p>
+        {userData && <p className='saldo'>R$ {(income - outcome).toFixed(2)} </p>}
     </div>
     </Records>
     <Footer>

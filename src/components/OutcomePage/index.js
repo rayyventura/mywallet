@@ -20,7 +20,7 @@ export default function OutcomePage() {
       description
     }
 
-    axios.post('http://localhost:5000/outcome',data,{
+    axios.post('https://mywalletbank.herokuapp.com/outcome',data,{
       headers:{ Authorization: `Bearer ${info.token}`}
     }).then(res => navigate("/records")).catch(res => alert("Falha em adicionar transação"));
   }
@@ -39,7 +39,7 @@ export default function OutcomePage() {
              <p> Nova Saída </p>
           </Header>
          <Form onSubmit={submitForm}>
-           <input type="number" min="1" step="any"  placeholder='Valor' value={value} onChange={e=>setValue(e.target.value)} required/>
+           <input type="number"  min="0.01" step="0.01" placeholder='Valor' value={value} onChange={e=>setValue(e.target.value)} required/>
            <input type="text" placeholder='Descrição' value={description} onChange={e=>setDescription(e.target.value)}  required/>
            <button type='submit' > Salvar saída </button>
          </Form>
