@@ -18,7 +18,7 @@ A React App that allows you to track your financials incomes and outocomes, so y
 - <image src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" />
 - <image src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" />
 - <image src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" />
-- 
+
 ## How to run
 
 1º Clone this repository
