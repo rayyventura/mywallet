@@ -24,14 +24,6 @@ export default function RecordsPage() {
                 }
              }).then((res =>{
                  setUserData(res.data);
-                    res.data.transactions.forEach(data=>{
-                       console.log(income)
-                        if(data.type==='income'){
-                            income = income + parseFloat(data.value);  
-                           }else{
-                           outcome = outcome + parseFloat(data.value);
-                    }
-                    })
                     })).catch(res => alert("Falha em carregar dados do usuário"));
 
         },[info.token],[income],[outcome])
@@ -65,7 +57,7 @@ export default function RecordsPage() {
        {userData &&  <p>Olá, {userData.name}</p> }
         <ion-icon name="exit-outline" onClick={()=>navigate('/')}></ion-icon>
     </Header>
-    <Records saldo={income-outcome>0}>
+    <Records saldo={userData.total}>
         <Text user={userData}>
             {
                 userData?  userData.transactions.map((record,i)=>{
@@ -77,7 +69,7 @@ export default function RecordsPage() {
         </Text>
     <div className="footer">
         <p>Saldo</p>
-        {userData && <p className='saldo'>R$ {(income - outcome).toFixed(2)} </p>}
+        {userData && <p className='saldo'>R$ {userData.total.toFixed(2)} </p>}
     </div>
     </Records>
     <Footer>
