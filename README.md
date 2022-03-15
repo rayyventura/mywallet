@@ -1,4 +1,4 @@
-# My Account
+# My Wallet
 <p align="center">
   <image src="" />
 </p>
