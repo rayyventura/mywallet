@@ -1,4 +1,17 @@
-body{
-    background-color: #8C11BE;
+* {
+  box-sizing: border-box;
 }
 
+body {
+  font-family: "Raleway", sans-serif;
+  color: #fff;
+}
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #8c11be;
+
+  min-height: 100vh;
+}

@@ -1,30 +1,26 @@
-import React, { useState} from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import './css/reset.css'
-import './css/style.css'
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import RecordsPage from './components/RecordsPage';
-import IncomePage from './components/IncomePage';
-import OutcomePage from './components/OutcomePage';
-import UserContext from './components/contexts/UserContext';
+import React from "react";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import SignIn from "./pages/SignIn";
+import Income from "./pages/Income";
+import SignUp from "./pages/SignUp";
+import Outgoing from "./pages/Outgoings";
+import { UserContext } from "./contexts/UserContext";
+import Home from "./pages/Home";
 
-
-
-export default function App() {
-  const [info,setInfo]=useState();
+function App() {
   return (
-    <BrowserRouter>
-          <UserContext.Provider value={{info,setInfo}}>
-            <Routes>
-              <Route path="/" element={<SignIn />}/>
-              <Route path="/signup" element={<SignUp />}/>
-              <Route path="/income" element={<IncomePage />}/>
-              <Route path="/outcome" element={<OutcomePage />}/>
-              <Route path="/records" element={<RecordsPage />}/>
-            </Routes>
-        </UserContext.Provider>
-    </BrowserRouter>
-  )
+    <UserContext>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/" element={<SignIn />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/income" element={<Income />} />
+          <Route path="/outcome" element={<Outgoing />} />
+        </Routes>
+      </BrowserRouter>
+    </UserContext>
+  );
 }
 
+export default App;
