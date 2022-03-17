@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
+import Loading from "../../assets/loading.gif";
 
 import { Container, Flex, Title, Button, NoTransactions, Span } from "./style";
 import useAuth from "../../hooks/useAuth";
@@ -33,7 +34,7 @@ function Home() {
   }, [token]);
 
   if (isLoading || !user) {
-    return <h2>Carregando...</h2>;
+    return <img src={Loading} alt="loading" />;
   }
 
   return (
